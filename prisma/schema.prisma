@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String                @id @default(uuid())
+  name                String
+  email               String                @unique
+  password            String
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  Company             Company?
+  Profile             Profile?
+  File                File[]
+  SubscriptionCompany SubscriptionCompany[]
+  roleId              String
+  role                Role                  @relation(fields: [roleId], references: [id])
+}
+
+model Company {
+  id              String   @id @default(uuid())
+  name            String
+  avatar          String?
+  link            String?
+  founded         String?
+  size            Int[]
+  industry        String?
+  backgroundImage String?
+  contact         String?
+  content         Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user                User                  @relation(fields: [userId], references: [id])
+  userId              String                @unique
+  SubscriptionCompany SubscriptionCompany[]
+  Job                 Job[]
+}
+
+model Profile {
+  id              String   @id @default(uuid())
+  name            String
+  avatar          String
+  backgroundImage String
+  contact         String
+  content         Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String   @unique
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String
+  type      Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User[]
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Skill {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SubscriptionCompany {
+  user   User    @relation(fields: [userId], references: [id])
+  userId String
+  sub    Company @relation(fields: [subId], references: [id])
+  subId  String
+
+  @@id([userId, subId])
+}
+
+model Job {
+  id        String   @id @default(uuid())
+  title     String   @db.VarChar(255)
+  content   Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+}

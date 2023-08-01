@@ -1,6 +1,11 @@
 import Post from '@/components/pages/home/Post'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
+  // const { data: session, status } = useSession()
+
+  // console.log(session)
+
   return (
     <div className='flex'>
       <div className='py-6 flex-1'>
