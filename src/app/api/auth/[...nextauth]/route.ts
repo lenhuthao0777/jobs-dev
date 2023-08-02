@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import prisma from '@/lib/prisma'
 
 const authOptions: NextAuthOptions = {
   pages: {
@@ -21,6 +22,12 @@ const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid Credentials!')
         }
+
+        const res = prisma.user.findFirst({
+          where: {
+            email: credentials.email,
+          },
+        })
 
         const user = { id: '1', nam: 'hao', email: 'hao@gmail.com', ok: true }
 
