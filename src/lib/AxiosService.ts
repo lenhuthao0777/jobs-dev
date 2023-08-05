@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { signOut } from "next-auth/react";
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8080/v1/',
+  baseURL: 'http://localhost:3000/api/',
   headers: { 'X-Custom-Header': 'foobar' },
 })
 
@@ -39,6 +40,8 @@ axiosClient.interceptors.response.use(
       //   window.location.href = `${url}/log-in`
       // }
       // await backToLogin()
+
+      await signOut({callbackUrl: '/signin'})
     }
     if (error.response.status === 500) {
       // handle notification for user server error

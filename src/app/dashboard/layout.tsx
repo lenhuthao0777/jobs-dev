@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div>
+    <section>
+      <div>nav</div>
       {children}
-    </div>
+    </section>
   );
 };
 

@@ -15,8 +15,8 @@ const JobItem = () => {
   return (
     <div
       className={cn(
-        `${isActive ? 'border-red-500' : ''}`,
-        'p-5 rounded-xl space-y-2 bg-white shadow cursor-pointer border-2 transition-all ease-in'
+        `${isActive ? 'border border-red-500' : 'border-transparent'}`,
+        'p-5 rounded-xl space-y-2 bg-white shadow border cursor-pointer transition-all ease-in'
       )}
       onClick={() => setIsActive(!isActive)}
     >

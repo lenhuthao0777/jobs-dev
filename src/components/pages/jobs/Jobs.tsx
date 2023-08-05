@@ -13,6 +13,7 @@ import Button from '@/components/ui/Button'
 import CompanyInfo from '../company/CompanyInfo'
 
 const Jobs = () => {
+
   return (
     <div className='flex space-x-2'>
       <div className='w-[40%] flex flex-col space-y-2'>

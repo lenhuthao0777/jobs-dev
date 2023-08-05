@@ -1,6 +1,25 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { HttpStatusCode } from 'axios'
+import { TResponse } from "@/types/globalType";
+
+
+export async function GET() {
+  try {
+    const res = await prisma.role.findMany()
+
+    return NextResponse.json({
+      status: HttpStatusCode.Ok,
+      data: res,
+      message: 'Get role success!'
+    })
+  } catch ( error ) {
+    NextResponse.json({
+      status: HttpStatusCode.InternalServerError,
+      message: error
+    })
+  }
+}
 
 export async function POST(req: Request) {
   try {
@@ -10,7 +29,6 @@ export async function POST(req: Request) {
       data: {
         name: body?.name,
         type: body?.type,
-        userId: body?.userId,
       },
     })
 
@@ -19,7 +37,7 @@ export async function POST(req: Request) {
       data: res,
       message: 'Created role success!',
     })
-  } catch (error) {
+  } catch ( error ) {
     return error
   }
 }

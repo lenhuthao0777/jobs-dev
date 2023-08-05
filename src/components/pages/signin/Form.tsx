@@ -1,15 +1,19 @@
 'use client'
-import React, {useState} from 'react'
-import {signIn} from 'next-auth/react'
+import React, { useState } from 'react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Button from '@/components/ui/Button'
-import {Input} from '@/components/ui/Input'
-import {useForm} from 'react-hook-form'
+import { Input } from '@/components/ui/Input'
+import { useForm } from 'react-hook-form'
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 function Form() {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { toastSuccess, toastError } = useToast()
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: '',
@@ -17,16 +21,30 @@ function Form() {
     }
   })
 
-  const handleSignIn = async (data: any) => {
-    // await signIn('credentials', {
-    //   ...data
-    // })
-    console.log(data)
+  const handleSignIn = async (data: { email: string, password: string }) => {
+    setIsLoading(true)
+    try {
+      await signIn('credentials', data)
+      toastSuccess('Sign In success!')
+    } catch ( error ) {
+      toastError('Email or Password invalid, try again!')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
+  const handleForm = async (data: { email: string, password: string }) => {
+    await handleSignIn(data)
+  }
+
+  const session = useSession()
+
+  if (session.data) return null
+
+
   return (
-    <div className='h-screen full'>
-      <form onSubmit={handleSubmit(handleSignIn)}
+    <div className='h-screen w-full'>
+      <form onSubmit={handleSubmit(handleForm)}
             className='bg-white rounded-lg shadow w-96 p-5 m-auto mt-40 space-y-2'>
         <div className='flex flex-col'>
           <span className='text-xs font-semibold mb-1'>Email</span>
@@ -36,7 +54,7 @@ function Form() {
           <span className='text-xs font-semibold mb-1'>Password</span>
           <Input name='password' register={register} errors={errors}/>
         </div>
-        <Button type='submit' className='mt-3'>test</Button>
+        <Button type='submit' isLoading={isLoading} className='mt-3'>Sign In</Button>
       </form>
     </div>
   )
