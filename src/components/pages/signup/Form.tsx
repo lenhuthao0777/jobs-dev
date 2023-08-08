@@ -2,18 +2,17 @@
 import React, { useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
-import Button from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import Auth from "@/models/auth";
 import { useToast } from "@/hooks/use-toast";
 import RadioGroup from "@/components/ui/RadioGroup";
 import Role from "@/models/role";
 import { TRole } from "@/types/globalType";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Form = () => {
   const { toastSuccess, toastError } = useToast();
-  const router = useRouter();
 
   const {
     handleSubmit,
@@ -66,11 +65,16 @@ const Form = () => {
   }, []);
 
   return (
-    <div className="h-screen w-full">
-      <form
-        onSubmit={handleSubmit(handleForm)}
-        className="bg-white rounded-lg shadow p-5 w-96 m-auto space-y-2"
-      >
+    <div className="bg-white flex flex-col space-y-5 rounded-lg shadow p-5 w-[400px] mx-auto mt-40 ">
+      <div className="text-zinc-900">
+        <h2 className="text-2xl font-semibold">Sign Up</h2>
+        <p className="text-[12px]">
+          By continuing, you are setting up a Reddit account and agree to our
+          User Agreement and Privacy Policy.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit(handleForm)} className="space-y-2">
         <div className="flex flex-col">
           <span className="text-xs mb-1">Name</span>
           <Input name="name" register={register} errors={errors} />
@@ -95,9 +99,18 @@ const Form = () => {
           {/*<RadioGroup name='roleId' options={optionRoles} register={register} errors={errors}/>*/}
         </div>
 
-        <Button isLoading={isLoading} type="submit" size="sm">
-          Sign Up
-        </Button>
+        <div className="flex items-center justify-end">
+          <Button isLoading={isLoading} type="submit" size="sm">
+            Sign Up
+          </Button>
+
+          <Link
+            href="signin"
+            className={buttonVariants({ variant: "outline", size: "sm", className: 'ml-2' })}
+          >
+            Back to Login Page
+          </Link>
+        </div>
       </form>
     </div>
   );

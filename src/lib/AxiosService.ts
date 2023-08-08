@@ -43,7 +43,7 @@ axiosClient.interceptors.response.use(
 
       await signOut({callbackUrl: '/signin'})
     }
-    if (error.response.status === 500) {
+    if (error?.response?.status === 500) {
       // handle notification for user server error
       // await showToast('error', 'Server error!')
       console.log(error)

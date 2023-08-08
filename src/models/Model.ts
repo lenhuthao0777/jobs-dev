@@ -20,7 +20,7 @@ class Model {
     return ApiService.post(this.path, body).then((res: any) => res?.data)
   }
 
-  static update(id: string, body: any): Promise<any> {
+  static update(id?: string, body?: any): Promise<any> {
     return ApiService.put(`${this.path}/${id}`, body).then(
       (res) => res?.data
     )

@@ -1,46 +1,99 @@
-'use client'
-import React from 'react'
-import Logo from './Logo'
-import Avatar from './Avatar'
-import Button, { buttonVariants } from './ui/Button'
-import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import React from "react";
+import Logo from "./Logo";
+import Avatar from "./Avatar";
 import Link from "next/link";
+import { LayoutDashboard, Home, Briefcase, Building2 } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import SignOut from "./SignOut";
+import { TUser } from "@/types/globalType";
 
-const Nav = () => {
-  const session = useSession()
-  const path = usePathname()
-  const list = ['Home', 'Jobs', 'Posts', 'Companies']
+const Nav = async () => {
+  const session: { user: TUser } | null = await getServerSession(authOptions);
 
-  if (path.includes('signin') || path.includes('signup')) return null
+  const list = [
+    {
+      id: 1,
+      title: "Home",
+      path: "/",
+      icon: <Home className="w-6 h-6" />,
+    },
+    {
+      id: 2,
+      title: "Jobs",
+      path: "/jobs",
+      icon: <Briefcase className="w-6 h-6" />,
+    },
+    {
+      id: 3,
+      title: "Company",
+      path: "/company",
+      icon: <Building2 className="w-6 h-6" />,
+    },
+    {
+      id: 4,
+      title: "Dashboard",
+      path: "/dashboard",
+      icon: <LayoutDashboard className="w-6 h-6" />,
+    },
+  ];
 
   return (
-    <div className='flex items-center fixed top-0 left-0 right-0 w-full h-20 bg-white shadow'>
-      <div className='container mx-auto px-4 max-sm:px-6 flex items-center justify-between py-6 space-x-6'>
-        <div className='flex flex-1'>
-          <Logo/>
-        </div>
+    <div className="fixed top-0 left-0 right-0 w-[244px] h-full bg-white shadow z-10 max-lg:hidden">
+      <div className="h-full flex flex-col p-5 justify-between">
+        <div className="flex flex-col space-y-5">
+          <div className="border-b py-5">
+            <Logo />
+          </div>
 
-        <ul className='flex items-center space-x-10 max-md:hidden max-sm:hidden'>
-          {list.map((item) => (
-            <li
-              key={item}
-              className='list-none p-4 font-semibold overflow-hidden rounded-md border-2 border-transparent transition-all ease-in cursor-pointer hover:border-gray-400 hover:text-gray-500'
-            >
-              {item}
+          <ul className="flex flex-col">
+            {list.map((item, index) => (
+              <>
+                {item.path.includes("dashboard") ? (
+                  <>
+                    {session?.user.role.type !== 1 ? (
+                      <li
+                        key={item.id}
+                        className="list-none py-4 px-1 font-semibold overflow-hidden rounded-md transition-all ease-in cursor-pointer hover:text-gray-500"
+                      >
+                        <Link href={item.path} className="flex items-center">
+                          {item.icon}
+                          <span className="ml-2">{item.title}</span>
+                        </Link>
+                      </li>
+                    ) : null}
+                  </>
+                ) : (
+                  <li
+                    key={item.id}
+                    className="list-none py-4 px-1 font-semibold overflow-hidden rounded-md transition-all ease-in cursor-pointer hover:text-gray-500"
+                  >
+                    <Link href={item.path} className="flex items-center">
+                      {item.icon}
+                      <span className="ml-2">{item.title}</span>
+                    </Link>
+                  </li>
+                )}
+              </>
+            ))}
+            <li className="flex items-center list-none py-4 px-1 font-semibold overflow-hidden rounded-md transition-all ease-in cursor-pointer hover:text-gray-500">
+              {session?.user ? (
+                <Link
+                  href={`/profile/${session.user.id}`}
+                  className="flex items-center"
+                >
+                  <Avatar />
+                  <span className="text-sm font-semibold ml-2">Profile</span>
+                </Link>
+              ) : null}
             </li>
-          ))}
-        </ul>
-
-        <div className='flex items-center justify-end space-x-8'>
-          {
-            session.data ? <Avatar/> :
-              <Link href='/signin' className={buttonVariants({ variant: 'default' })}>Sign In</Link>
-          }
+          </ul>
         </div>
+
+        <SignOut session={session?.user} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
