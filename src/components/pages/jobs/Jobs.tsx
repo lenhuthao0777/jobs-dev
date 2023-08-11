@@ -16,11 +16,11 @@ const Jobs = () => {
 
   return (
     <div className='flex space-x-2'>
-      <div className='w-[40%] flex flex-col space-y-2'>
+      <div className='w-[40%] max-lg:w-full flex flex-col space-y-2'>
         <JobItem />
       </div>
 
-      <div className='w-[60%] bg-white rounded-xl shadow p-5 space-y-2'>
+      <div className='w-[60%] max-lg:hidden bg-white rounded-xl shadow p-5 space-y-2'>
         <h2 className='text-xl max-md:text-lg max-sm:text-md font-extrabold'>
           Senior Software Engineer
         </h2>

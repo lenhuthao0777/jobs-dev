@@ -1,15 +1,7 @@
-import React from 'react';
-import { session } from "@/lib/auth";
+import React from "react";
 
 const Page = async () => {
-  const data = await session()
-
-
-  return (
-    <div>
-      Dashboard page
-    </div>
-  );
+  return <div>Dashboard page</div>;
 };
 
 export default Page;

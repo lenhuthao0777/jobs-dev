@@ -11,53 +11,33 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(uuid())
-  name                String
-  email               String                @unique
-  password            String
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  Company             Company?
-  Profile             Profile?
-  File                File[]
-  SubscriptionCompany SubscriptionCompany[]
-  roleId              String
-  role                Role                  @relation(fields: [roleId], references: [id])
-}
-
-model Company {
-  id              String   @id @default(uuid())
-  name            String
-  avatar          String?
-  link            String?
-  founded         String?
-  size            Int[]
-  industry        String?
-  backgroundImage String?
-  contact         String?
-  content         Json?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  user                User                  @relation(fields: [userId], references: [id])
-  userId              String                @unique
-  SubscriptionCompany SubscriptionCompany[]
-  Job                 Job[]
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile?
+  File      File[]
+  roleId    String
+  role      Role     @relation(fields: [roleId], references: [id])
+  Job       Job[]
 }
 
 model Profile {
   id              String   @id @default(uuid())
   name            String
+  summary         Json?
   avatar          Json?
   backgroundImage Json?
   contact         String?
   content         Json?
+  companySize     String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   user            User     @relation(fields: [userId], references: [id])
   userId          String   @unique
 }
-
 
 model Role {
   id        String   @id @default(uuid())
@@ -81,28 +61,34 @@ model File {
 }
 
 model Skill {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model SubscriptionCompany {
-  user   User    @relation(fields: [userId], references: [id])
-  userId String
-  sub    Company @relation(fields: [subId], references: [id])
-  subId  String
-
-  @@id([userId, subId])
+  id         String       @id @default(uuid())
+  name       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  SkillOnJob SkillOnJob[]
 }
 
 model Job {
-  id        String   @id @default(uuid())
-  title     String   @db.VarChar(255)
-  content   Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String       @id @default(uuid())
+  title        String       @db.VarChar(255)
+  location     String?
+  locationCode String?
+  level        String?
+  typeWorking  String?
+  salaryRange  String?
+  content      Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  userId       String
+  user         User         @relation(fields: [userId], references: [id])
+  SkillOnJob   SkillOnJob[]
+}
 
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
+model SkillOnJob {
+  job     Job    @relation(fields: [jobId], references: [id])
+  jobId   String
+  skill   Skill  @relation(fields: [skillId], references: [id])
+  skillId String
+
+  @@id([jobId, skillId])
 }

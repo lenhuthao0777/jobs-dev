@@ -8,10 +8,15 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { Icons } from "@/components/ui/Icons";
+import { useRouter } from "next/navigation";
 
 function Form() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { toastSuccess, toastError } = useToast();
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -26,10 +31,14 @@ function Form() {
   const handleSignIn = async (data: { email: string; password: string }) => {
     setIsLoading(true);
     try {
-      await signIn("credentials", data);
-      toastSuccess("Sign In success!");
+      const res = await signIn("credentials", { ...data, redirect: false });
+      if (res?.error) {
+        toastError("Email or Password invalid, try again!");
+      } else {
+        router.push(res?.url as string);
+      }
     } catch (error) {
-      toastError("Email or Password invalid, try again!");
+      toastError(error as string);
     } finally {
       setIsLoading(false);
     }

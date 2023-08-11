@@ -7,6 +7,7 @@ import Session from "@/providers/Session";
 import UseQuery from "@/providers/UseQueryProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { Toast } from "@/hooks/use-toast";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,15 +27,17 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className="min-h-screen antialiased"
       >
-        <UseQuery>
-          <Session>
-            <Nav />
-            <div className="ml-[244px] max-lg:mx-auto h-full pt-2">
-              <div className="container mx-auto">{children}</div>
-            </div>
-          </Session>
-        </UseQuery>
-        <Toast />
+        <Suspense fallback={<div>Loading...</div>}>
+          <UseQuery>
+            <Session>
+              <Nav />
+              <div className="ml-[244px] max-lg:mx-auto h-full pt-2 relative">
+                <div className="container mx-auto px-5 max-lg:mt-20">{children}</div>
+              </div>
+            </Session>
+          </UseQuery>
+          <Toast />
+        </Suspense>
       </body>
     </html>
   );

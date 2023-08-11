@@ -15,9 +15,9 @@ export interface RadioGroupProps {
 
 const RadioGroup: FC<RadioGroupProps> = ({ options, errors, register, name }) => {
   return <div className='flex flex-col space-y-2'>
-    <div className='flex items-center'>
+    <div className='flex items-center space-x-2'>
       {options?.map((item: any) => (
-        <label htmlFor="burger" key={item.value} className='flex items-center'>
+        <label htmlFor={item.name} key={item.value} className='flex items-center text-xs'>
           <input
             {...register(name)}
             type="radio"
@@ -25,7 +25,7 @@ const RadioGroup: FC<RadioGroupProps> = ({ options, errors, register, name }) =>
             value="Burger"
             className="form-check-input"
             id="burger"
-          />{' '}
+          />
           <span>{item?.label}</span>
         </label>
       ))}

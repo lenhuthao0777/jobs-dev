@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import { HttpStatusCode } from "axios";
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -76,6 +75,7 @@ export async function PUT(req: Request) {
       },
       data: {
         name: body?.name,
+        summary: body?.summary,
         contact: body?.contact,
         content: body?.content,
         avatar: body?.avatar,

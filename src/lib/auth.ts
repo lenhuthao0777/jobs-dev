@@ -5,11 +5,14 @@ import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
 import { User } from ".prisma/client";
 import { SignInJwtAccessToken } from "@/lib/JWT";
-import { TUser } from "@/types/globalType";
+import { TUser, Avatar } from "@/types/globalType";
+import SignInModel from "@/models/signin";
 
 const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/signin",
+    signOut: '/signup',
+    error: '/*'
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -29,29 +32,13 @@ const authOptions: NextAuthOptions = {
           throw new Error("Invalid Credentials!");
         }
 
-        const res: User | any = await prisma.user.findFirst({
-          where: {
-            email: credentials.email,
-          },
-          include: {
-            role: true,
-          },
+        const res = await SignInModel.create({
+          email: credentials.email,
+          password: credentials.password,
         });
 
-        const comparePass = await compare(credentials.password, res.password);
-
-        if (res && comparePass) {
-          const token = SignInJwtAccessToken({
-            email: res.email,
-            name: res.name,
-          });
-          return {
-            id: res.id,
-            name: res?.name,
-            email: res.email,
-            role: res.role.name,
-            accessToken: token,
-          };
+        if (res) {
+          return res.data;
         }
 
         return null;
@@ -73,6 +60,7 @@ const authOptions: NextAuthOptions = {
         },
         include: {
           role: true,
+          profile: true,
         },
       });
 
@@ -81,7 +69,14 @@ const authOptions: NextAuthOptions = {
         return token;
       }
 
-      return dbUser;
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        role: dbUser.role.type,
+        roleName: dbUser.role.name,
+        avatar: dbUser.profile?.avatar,
+      };
     },
   },
 };

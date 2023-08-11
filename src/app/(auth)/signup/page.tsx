@@ -1,9 +1,8 @@
-import React from 'react'
-import Form from '@/components/pages/signup/Form'
-function page() {
-  return <div>
-    <Form/>
-  </div>
-}
+import React from "react";
+import Form from "@/components/pages/signup/Form";
 
-export default page
+const page = () => {
+  return <Form />;
+};
+
+export default page;

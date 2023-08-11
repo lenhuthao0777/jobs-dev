@@ -12,3 +12,28 @@ body {
 .ql-toolbar .ql-snow {
   border: none !important;
 }
+
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 40em) {
+  body {
+    font-size: 11.5px;
+  }
+}
+
+/* Medium devices such as tablets (768px and up) */
+@media only screen and (min-width: 48em) {
+  body {
+    font-size: 12px;
+  }
+}
+
+/* Large devices such as laptops (1024px and up) */
+@media only screen and (min-width: 64em) {
+  body {
+    font-size: 13.5px;
+  }
+}
+
+/* Largest devices such as desktops (1280px and up) */
+@media only screen and (min-width: 80em) {
+}

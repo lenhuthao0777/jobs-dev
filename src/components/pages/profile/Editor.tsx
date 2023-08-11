@@ -26,6 +26,8 @@ const Editor: FC<PageProps> = ({ profile, id, userId }) => {
 
   const [content, setContent] = useState<any>(profile.content);
 
+  const [summary, setSummary] = useState<any>(profile.summary);
+
   const router = useRouter();
 
   const [images, setImages] = useState({
@@ -67,7 +69,7 @@ const Editor: FC<PageProps> = ({ profile, id, userId }) => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image", "video"],
+      ["link"],
     ],
   };
 
@@ -77,6 +79,7 @@ const Editor: FC<PageProps> = ({ profile, id, userId }) => {
       ...images,
       userId: userId,
       content,
+      summary,
       id,
     });
   };
@@ -92,6 +95,17 @@ const Editor: FC<PageProps> = ({ profile, id, userId }) => {
         <div className="flex items-center">
           <span className="w-40 flex-shrink-0">Contact</span>
           <Input name="contact" register={register} errors={errors} />
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-40 flex-shrink-0">Summary</span>
+          <QuillReact
+            theme="snow"
+            className="w-full"
+            modules={modules}
+            value={summary}
+            onChange={setSummary}
+          />
         </div>
 
         <div className="flex items-center">

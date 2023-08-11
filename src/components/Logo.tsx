@@ -9,7 +9,7 @@ function Logo() {
         <p className='text-2xl max-md:text-xl leading-10 tracking-tight font-extrabold mr-1'>
           Jobs
         </p>
-        <Icons.logo className='h-10 w-10' />
+        <Icons.logo className='h-14 w-14' />
       </div>
     </Link>
   )

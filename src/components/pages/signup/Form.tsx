@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import Button, { buttonVariants } from "@/components/ui/Button";
@@ -10,9 +10,18 @@ import RadioGroup from "@/components/ui/RadioGroup";
 import Role from "@/models/role";
 import { TRole } from "@/types/globalType";
 import Link from "next/link";
+import ProfileModel from "@/models/profile";
+import { Radio } from "antd";
+import { useRouter } from "next/navigation";
 
 const Form = () => {
   const { toastSuccess, toastError } = useToast();
+
+  const router = useRouter();
+
+  const [typeAccount, setTypeAccount] = useState<string>(
+    "360371a5-5041-4dd0-a33c-9a499dea4f02"
+  );
 
   const {
     handleSubmit,
@@ -23,15 +32,21 @@ const Form = () => {
       name: "",
       email: "",
       password: "",
-      roleId: "360371a5-5041-4dd0-a33c-9a499dea4f02",
+      roleId: '',
     },
   });
 
   const { mutate: handleSignUp, isLoading } = useMutation({
-    mutationFn: async (data: any) => await Auth.create(data),
-    onSuccess(data: any) {
+    mutationFn: async (data: any) =>
+      await Auth.create({ ...data, roleId: typeAccount }),
+    async onSuccess(data: any) {
       if (data?.data) {
         toastSuccess(data?.message);
+        await ProfileModel.create({
+          name: data?.data?.name,
+          userId: data?.data?.id,
+        });
+        router.push("/signin");
       } else {
         toastError(data?.message);
       }
@@ -51,7 +66,7 @@ const Form = () => {
 
   const optionRoles = useMemo(() => {
     const result: TRole[] = roleData?.data.filter(
-      (item: TRole) => item.name !== "admin"
+      (item: TRole) => item.type === 2
     );
     const options: any = result?.map((item: TRole) => ({
       label: item.name.toUpperCase(),
@@ -96,7 +111,10 @@ const Form = () => {
         </div>
 
         <div>
-          {/*<RadioGroup name='roleId' options={optionRoles} register={register} errors={errors}/>*/}
+          <Radio.Group
+            options={optionRoles}
+            onChange={(e: any) => setTypeAccount(e.target.value)}
+          />
         </div>
 
         <div className="flex items-center justify-end">
@@ -106,7 +124,11 @@ const Form = () => {
 
           <Link
             href="signin"
-            className={buttonVariants({ variant: "outline", size: "sm", className: 'ml-2' })}
+            className={buttonVariants({
+              variant: "outline",
+              size: "sm",
+              className: "ml-2",
+            })}
           >
             Back to Login Page
           </Link>
