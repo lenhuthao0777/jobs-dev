@@ -1,7 +1,6 @@
-import React from 'react'
-import { buttonVariants } from '@/components/ui/Button'
-import Link from 'next/link'
-
+import React from 'react';
+import { buttonVariants } from '@/components/ui/Button';
+import Link from 'next/link';
 const Post = () => {
   return (
     <div className='overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last'>
@@ -27,7 +26,7 @@ const Post = () => {
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;

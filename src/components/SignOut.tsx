@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 import { LogOut, LogIn } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 interface PageProps {
   session: any;
 }
@@ -13,6 +13,7 @@ const SignOut: FC<PageProps> = ({ session }) => {
   const handleSignOut = async () => {
     const res = await signOut({ redirect: false });
     if (res.url) {
+      Cookies.remove('accessToken')
       router.push("/signin");
     }
   };

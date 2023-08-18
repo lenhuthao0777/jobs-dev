@@ -1,7 +1,5 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Profile from "@/components/pages/profile/Profile";
-import ScreenName from "@/components/ScreenName";
-import ProfileModel from "@/models/profile";
 
 interface PageProps {
   params: {

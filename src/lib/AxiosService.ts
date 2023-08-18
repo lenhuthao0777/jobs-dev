@@ -1,56 +1,48 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { signOut } from "next-auth/react";
+import Cookies from 'js-cookie';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { signOut } from 'next-auth/react';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: 'http://localhost:8080/api/v1',
   headers: { 'X-Custom-Header': 'foobar' },
-})
+});
 
 axiosClient.interceptors.request.use(
-  (request: any) => {
-    // dispatch && dispatch(showLoader(true))
+  async (request: any) => {
+    const token: string = Cookies.get('accessToken') || '';
 
-    // const token: string = Cookies.get('token') || ''
+    if (token) request.headers.Authorization = `Bearer ${token}`;
 
-    // if (token) request.headers.Authorization = `Bearer ${token}`
-
-    return request
+    return request;
   },
   (err: any) => {
-    // dispatch && dispatch(showLoader(false))
-
-    return { status: err.request.status, request: err.request.data.errors }
+    return { status: err.request.status, request: err.request.data.errors };
   }
-)
+);
 
 axiosClient.interceptors.response.use(
   (response: AxiosResponse) => {
-    // dispatch && dispatch(showLoader(false))
-
-    return response
+    return response;
   },
   async (error: any) => {
-    // dispatch && dispatch(showLoader(false))
-
     if (error?.response?.status === 401) {
       // handle logout: clear cookies, move to login page
-      // await Cookies.remove('token')
+      await Cookies.remove('accessToken');
       // const url: string = window.location.origin
       // const backToLogin: any = () => {
       //   window.location.href = `${url}/log-in`
       // }
       // await backToLogin()
-
-      await signOut({callbackUrl: '/signin'})
+      await signOut({ callbackUrl: '/signin' });
     }
     if (error?.response?.status === 500) {
       // handle notification for user server error
       // await showToast('error', 'Server error!')
-      console.log(error)
+      console.log(error);
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 const ApiService = {
   get: <T>(url: string, obj?: object) => axiosClient.get<T>(url, obj),
@@ -59,6 +51,6 @@ const ApiService = {
   patch: <T>(url: string, obj: object) => axiosClient.patch<T>(url, obj),
   put: <T>(url: string, obj: object) => axiosClient.put<T>(url, obj),
   delete: <T>(url: string, obj?: object) => axiosClient.delete<T>(url, obj),
-}
+};
 
-export default ApiService
+export default ApiService;

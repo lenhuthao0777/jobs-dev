@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -29,7 +29,7 @@ const LoadingComponent = React.forwardRef<HTMLDivElement, ButtonProps>(
       <>
         {isLoading ? (
           <div
-            className="absolute top-0 left-0 w-full h-full bg-gray-300 flex items-center justify-center"
+            className="absolute top-0 left-0 w-full h-full bg-gray-300 flex items-center justify-center z-10"
             ref={ref}
             {...props}
           >

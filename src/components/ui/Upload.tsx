@@ -1,11 +1,11 @@
-"use client";
-import React, { FC, useMemo, useRef, useState } from "react";
-import { InputBase } from "./InputBase";
-import FileModel from "@/models/file";
-import { Image as ImageEmpty } from "lucide-react";
-import Image from "next/image";
-import LoadingComponent from "./Loading";
-import Button from "./Button";
+'use client';
+import React, { FC, useMemo, useRef, useState } from 'react';
+import { InputBase } from './InputBase';
+import FileModel from '@/models/File';
+import { Image as ImageEmpty } from 'lucide-react';
+import Image from 'next/image';
+import LoadingComponent from './Loading';
+import Button from './Button';
 interface PageProps {
   onChange?: (file: any) => void;
   img?: any;
@@ -22,18 +22,12 @@ const Upload: FC<PageProps> = ({ onChange, img, userId }) => {
   const handleUpload = async (data: any) => {
     setIsLoading(true);
     try {
-      const res: any = await FileModel.upload(data);
-      if (res) {
-        await FileModel.create({
-          name: res?.original_filename,
-          url: res?.url,
-          width: res?.width,
-          height: res?.height,
-          userId: userId,
-        });
+      const res: any = await FileModel.create(data);
+      
+      if (res.data) {
+        setFileData(res.data.info);
+        onChange && onChange(res.data.info || img);
       }
-      setFileData(res);
-      onChange && onChange(res || img);
     } catch (error) {
       return error;
     } finally {
@@ -44,9 +38,7 @@ const Upload: FC<PageProps> = ({ onChange, img, userId }) => {
   const handleChangeFile = (event: any) => {
     let data = event.target.files[0];
     const formData = new FormData();
-    formData.append("file", data);
-    formData.append("upload_preset", "jobsdev");
-    formData.append("cloud_name", "dyg39hfua");
+    formData.append('file', data);
     data && handleUpload(formData);
   };
 
@@ -70,30 +62,30 @@ const Upload: FC<PageProps> = ({ onChange, img, userId }) => {
   }, [fileData]);
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="w-full mb-2 overflow-hidden flex items-center justify-center relative">
+    <div className='flex flex-col w-full'>
+      <div className='w-full mb-2 rounded-lg overflow-hidden flex items-center justify-center relative'>
         {fileData ? (
           <Image
             src={fileData?.url}
-            alt="img"
+            alt='img'
             width={width}
             height={height}
-            className="rounded-lg"
+            className='rounded-lg'
           />
         ) : (
-          <div className="bg-slate-400 h-52 w-full flex items-center justify-center">
-            <ImageEmpty className="w-40 h-40 text-white" />
+          <div className='bg-slate-400 h-52 w-full flex items-center justify-center'>
+            <ImageEmpty className='w-40 h-40 text-white' />
           </div>
         )}
         <LoadingComponent isLoading={isLoading} />
       </div>
       <InputBase
         onChange={handleChangeFile}
-        type="file"
-        className="cursor-pointer hidden"
+        type='file'
+        className='cursor-pointer hidden'
         ref={refFile}
       />
-      <Button onClick={choseFile} type="button" className="w-40">
+      <Button onClick={choseFile} type='button' className='w-40'>
         Chose File
       </Button>
     </div>

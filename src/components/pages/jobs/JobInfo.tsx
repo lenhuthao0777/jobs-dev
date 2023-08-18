@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, Fragment } from "react";
+import React, { FC } from "react";
 import { MapPin, DollarSign, Building, Calendar } from "lucide-react";
 import { formatTimeToNow, getCountryCodeFlag } from "@/lib/utils";
 import Image from "next/image";

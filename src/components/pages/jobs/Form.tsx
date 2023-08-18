@@ -1,11 +1,15 @@
 "use client";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import InputSelect from "@/components/ui/InputSelect";
 import { modulesQuill } from "@/enums";
+import SkillModel from "@/models/skill";
+import { TOptions } from "@/types/globalType";
+import { Skill } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Quill = dynamic(async () => await import("react-quill"), {
@@ -13,14 +17,24 @@ const Quill = dynamic(async () => await import("react-quill"), {
 });
 
 const Form = () => {
-  const [initialData, setInitialData] = useState();
+  const [initialData, setInitialData] = useState({});
 
   const { data } = useSession();
 
   const [content, setContent] = useState<string>();
 
+  const [skillTags, setSkillTags] = useState();
+
   const { isLoading } = useMutation({});
-  
+
+  const { data: skills, mutate: getSkills } = useMutation({
+    mutationFn: async () => await SkillModel.list(),
+  });
+
+  useEffect(() => {
+    getSkills();
+  }, []);
+
   const {
     handleSubmit,
     register,
@@ -30,6 +44,15 @@ const Form = () => {
   });
 
   const handleForm = (data: any) => {};
+
+  const skillOptions: Array<TOptions> = useMemo(() => {
+    return skills?.data
+      ? skills.data.map((item: Skill) => ({
+          label: item.name,
+          value: item.id,
+        }))
+      : [];
+  }, [skills]);
 
   return (
     <div className="bg-white p-5 shadow rounded-lg">
@@ -70,6 +93,11 @@ const Form = () => {
             value={content}
             onChange={setContent}
           />
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-40 flex-shrink-0">Skill</span>
+          <InputSelect options={skillOptions} onChange={setSkillTags} placeholder="Select skill"/>
         </div>
 
         <div className="flex justify-end">

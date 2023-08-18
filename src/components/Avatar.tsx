@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Icons } from "./ui/Icons";
 import Image from "next/image";
-import Link from "next/link";
 
 interface AvatarProps {
   src?: string;

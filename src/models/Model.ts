@@ -4,13 +4,13 @@ import ApiService from '@/lib/AxiosService'
 class Model {
   static path = ''
 
-  static list(params?: any): Promise<TResponse<any>> {
+  static list(params?: any): Promise<any> {
     return ApiService.get(this.path, { params }).then(
       (res: any) => res?.data
     )
   }
 
-  static getByAnything(param: string, queries?: any): Promise<TResponse<any>> {
+  static getByAnything(param: string, queries?: any): Promise<any> {
     return ApiService.get(`${this.path}/${param}`, {
       params: queries,
     }).then((res: any) => res?.data)

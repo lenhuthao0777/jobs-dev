@@ -1,38 +1,38 @@
-import React, { FC } from "react";
-import { Plus } from "lucide-react";
-import Image from "next/image";
+import React, { FC } from 'react';
+import { Plus } from 'lucide-react';
+import Image from 'next/image';
 
-import image from "@/public/company.jpeg";
-import Button from "@/components/ui/Button";
+import image from '@/public/company.jpeg';
+import Button from '@/components/ui/Button';
 
 const CompanyInfo: FC = () => {
   return (
-    <div className="border border-gray-200 rounded-lg p-4">
-      <h2 className="text-xl font-semibold">About company</h2>
-      <div className="flex items-center justify-between">
-        <div className=" flex items-center">
+    <div className='border border-gray-200 rounded-lg p-4'>
+      <h2 className='text-xl font-semibold'>About company</h2>
+      <div className='flex items-center justify-between'>
+        <div className=' flex items-center'>
           <Image
             src={image}
             width={64}
             height={64}
-            alt="img"
-            className="mt-5 overflow-hidden rounded-lg"
+            alt='img'
+            className='mt-5 overflow-hidden rounded-lg'
           />
-          <p className="flex flex-col ml-3 text-sm">
-            <span className="font-semibold">JAC Recruitment</span>
+          <p className='flex flex-col ml-3 text-sm'>
+            <span className='font-semibold'>JAC Recruitment</span>
             <span>221,722 followers</span>
           </p>
         </div>
-        <Button variant="subtle">
-          <Plus size={14} className="mr-1" />
+        <Button variant='subtle'>
+          <Plus size={14} className='mr-1' />
           Follow
         </Button>
       </div>
-      <p className="mt-5 text-xs">
+      <p className='mt-5 text-xs'>
         Staffing & Recruiting 1,001-5,000 employees 2,152 on LinkedIn
       </p>
 
-      <p className="text-xs mt-3 text-gray-500">
+      <p className='text-xs mt-3 text-gray-500'>
         JAC Recruitment, listed on the first section of the Tokyo Stock
         Exchange, is one of the very few recruitment consultancies providing
         specialised services for medium-to-high-income job positions such as
