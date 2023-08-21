@@ -72,13 +72,15 @@ function Form() {
       <form onSubmit={handleSubmit(handleForm)} className='space-y-2'>
         <div className='flex flex-col'>
           <span className='text-xs font-semibold mb-1'>Email</span>
-          <Input name='email' register={register} errors={errors} />
+          <Input name='email'
+          disabled={isLoading} register={register} errors={errors} />
         </div>
         <div className='flex flex-col'>
           <span className='text-xs font-semibold mb-1'>Password</span>
           <Input
             type='password'
             name='password'
+            disabled={isLoading}
             register={register}
             errors={errors}
           />

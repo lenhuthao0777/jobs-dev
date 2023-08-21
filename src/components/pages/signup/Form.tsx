@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { useForm } from 'react-hook-form';
 import Button, { buttonVariants } from '@/components/ui/Button';
@@ -13,6 +13,8 @@ import ProfileModel from '@/models/Profile';
 import { useRouter } from 'next/navigation';
 import InputRadioGroup from '@/components/ui/InputRadioGroup';
 import CompanyModel from '@/models/Company';
+import { Loader2 } from 'lucide-react';
+import LoadingComponent from '@/components/ui/Loading';
 
 const Form = () => {
   const { toastSuccess, toastError } = useToast();
@@ -37,7 +39,9 @@ const Form = () => {
     },
   });
 
-  const { data: roleData } = useQuery<TResponse<TRole[]>>({
+  const { data: roleData, isLoading: fetchRoleLoading } = useQuery<
+    TResponse<TRole[]>
+  >({
     queryKey: ['roles'],
     queryFn: () => Role.list(),
   });
@@ -94,66 +98,85 @@ const Form = () => {
   }, [roleData]);
 
   return (
-    <div className='bg-white flex flex-col space-y-5 rounded-lg shadow p-5 w-[400px] mx-auto mt-40 '>
-      <div className='text-zinc-900'>
-        <h2 className='text-2xl font-semibold'>Sign Up</h2>
-        <p className='text-[12px]'>
-          By continuing, you are setting up a Reddit account and agree to our
-          User Agreement and Privacy Policy.
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit(handleForm)} className='space-y-2'>
-        <div className='flex flex-col'>
-          <span className='text-xs mb-1'>First Name</span>
-          <Input name='firstName' register={register} errors={errors} />
+    <div className='bg-white flex flex-col rounded-lg shadow p-5 w-[400px] mx-auto mt-40 relative overflow-hidden'>
+      <Fragment>
+        <div className='text-zinc-900'>
+          <h2 className='text-2xl font-semibold'>Sign Up</h2>
+          <p className='text-[12px]'>
+            By continuing, you are setting up a Reddit account and agree to our
+            User Agreement and Privacy Policy.
+          </p>
         </div>
 
-        <div className='flex flex-col'>
-          <span className='text-xs mb-1'>Last Name</span>
-          <Input name='lastName' register={register} errors={errors} />
-        </div>
+        <form onSubmit={handleSubmit(handleForm)} className='space-y-2'>
+          <div className='flex flex-col'>
+            <span className='text-xs mb-1'>First Name</span>
+            <Input
+              name='firstName'
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </div>
 
-        <div className='flex flex-col'>
-          <span className='text-xs mb-1'>Email</span>
-          <Input name='email' register={register} errors={errors} />
-        </div>
+          <div className='flex flex-col'>
+            <span className='text-xs mb-1'>Last Name</span>
+            <Input
+              name='lastName'
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </div>
 
-        <div className='flex flex-col'>
-          <span className='text-xs mb-1'>Password</span>
-          <Input
-            type='password'
-            name='password'
-            register={register}
-            errors={errors}
-          />
-        </div>
+          <div className='flex flex-col'>
+            <span className='text-xs mb-1'>Email</span>
+            <Input
+              name='email'
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+            />
+          </div>
 
-        <div className='flex items-center pt-5'>
-          <InputRadioGroup
-            options={optionRoles}
-            name='roleId'
-            onChange={setTypeAccount}
-          />
-        </div>
+          <div className='flex flex-col'>
+            <span className='text-xs mb-1'>Password</span>
+            <Input
+              type='password'
+              disabled={isLoading}
+              name='password'
+              register={register}
+              errors={errors}
+            />
+          </div>
 
-        <div className='flex items-center justify-end'>
-          <Button isLoading={isLoading} type='submit' size='sm'>
-            Sign Up
-          </Button>
+          <div className='flex items-center pt-5'>
+            <InputRadioGroup
+              options={optionRoles}
+              name='roleId'
+              onChange={setTypeAccount}
+            />
+          </div>
 
-          <Link
-            href='signin'
-            className={buttonVariants({
-              variant: 'outline',
-              size: 'sm',
-              className: 'ml-2',
-            })}
-          >
-            Back to Login Page
-          </Link>
-        </div>
-      </form>
+          <div className='flex items-center justify-end'>
+            <Button isLoading={isLoading} type='submit' size='sm'>
+              Sign Up
+            </Button>
+
+            <Link
+              href='signin'
+              className={buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+                className: 'ml-2',
+              })}
+            >
+              Back to Login Page
+            </Link>
+          </div>
+        </form>
+      </Fragment>
+      <LoadingComponent isLoading={fetchRoleLoading} />
     </div>
   );
 };

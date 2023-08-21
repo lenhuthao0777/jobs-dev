@@ -73,7 +73,7 @@ const Upload: FC<PageProps> = ({ onChange, img, userId }) => {
             className='rounded-lg'
           />
         ) : (
-          <div className='bg-slate-400 h-52 w-full flex items-center justify-center'>
+          <div className='bg-slate-200 h-52 w-full flex items-center justify-center'>
             <ImageEmpty className='w-40 h-40 text-white' />
           </div>
         )}

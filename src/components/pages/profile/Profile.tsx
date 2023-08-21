@@ -88,17 +88,22 @@ const Profile: FC<PageProps> = ({ id }) => {
         </div>
 
         <div className='relative p-5 space-y-1'>
-          <h2 className='text-2xl font-extrabold'>
-            {initialProfileData?.firstName} {initialProfileData?.lastName}
+          <h2 className='text-3xl font-extrabold'>
+            {initialProfileData?.lastName} {initialProfileData?.firstName}
           </h2>
-          <p>{initialProfileData?.headLine}</p>
-          <p className='flex items-center space-x-1 text-gray-500'>
+          <p className='text-base font-semibold max-lg:text-sm'>
+            {initialProfileData?.headLine}
+          </p>
+          <p className='flex items-center space-x-1 text-gray-500 text-sm'>
             <span>{initialProfileData?.industry}</span>
             <span>. {initialProfileData?.city}</span>
             <span>. {initialProfileData?.region}</span>
           </p>
+
+          {!isCompany ? <p>{initialProfileData.education}</p> : null}
         </div>
-        <div className='flex items-center p-5 space-x-2'>
+
+        <div className='flex items-center p-5 space-x-2 max-sm:hidden'>
           <Button size='xs' variant='subtle' className='px-8 rounded-3xl'>
             <PlusIcon size={14} className='mr-1' />
             Follow

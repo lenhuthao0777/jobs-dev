@@ -17,13 +17,13 @@ export const loadingVariants = cva("", {
   },
 });
 
-interface ButtonProps
+interface LoadingProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof loadingVariants> {
   isLoading?: boolean;
 }
 
-const LoadingComponent = React.forwardRef<HTMLDivElement, ButtonProps>(
+const LoadingComponent = React.forwardRef<HTMLDivElement, LoadingProps>(
   ({ className, children, size, isLoading, ...props }, ref) => {
     return (
       <>

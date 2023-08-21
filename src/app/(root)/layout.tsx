@@ -32,7 +32,7 @@ export default function RootLayout({
           <UseQuery>
             <Session>
               <Nav />
-              <div className='ml-[244px] max-lg:mx-auto h-full pt-2 relative'>
+              <div className='ml-[244px] max-lg:mx-auto h-full py-2 relative'>
                 <div className='container mx-auto px-5 max-lg:mt-24 max-lg:mb-24'>
                   {children}
                 </div>

@@ -102,49 +102,49 @@ const Editor: FC<PageProps> = ({ userId, profileResponse }) => {
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>First Name</span>
-          <Input name='firstName' register={register} errors={errors} />
+          <Input name='firstName' placeholder='Enter first name' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>Last Name</span>
-          <Input name='lastName' register={register} errors={errors} />
+          <Input name='lastName' placeholder='Enter last name' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>Head Line</span>
-          <Input name='headLine' register={register} errors={errors} />
+          <Input name='headLine' placeholder='Enter head line' register={register} errors={errors} />
         </div>
 
         {isCompany ? (
           <div className='flex items-center'>
             <span className='w-40 flex-shrink-0'>Company Size</span>
-            <Input name='companySize' register={register} errors={errors} />
+            <Input name='companySize' placeholder='Enter company size' register={register} errors={errors} />
           </div>
         ) : (
           <div className='flex items-center'>
             <span className='w-40 flex-shrink-0'>Education</span>
-            <Input name='education' register={register} errors={errors} />
+            <Input name='education' placeholder='Enter education' register={register} errors={errors} />
           </div>
         )}
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>Industry</span>
-          <Input name='industry' register={register} errors={errors} />
+          <Input name='industry' placeholder='Enter industry' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>Region</span>
-          <Input name='region' register={register} errors={errors} />
+          <Input name='region' placeholder='Enter region' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>City</span>
-          <Input name='city' register={register} errors={errors} />
+          <Input name='city' placeholder='Enter city' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
           <span className='w-40 flex-shrink-0'>Contact</span>
-          <Input name='contact' register={register} errors={errors} />
+          <Input name='contact' placeholder='Enter contact' register={register} errors={errors} />
         </div>
 
         <div className='flex items-center'>
