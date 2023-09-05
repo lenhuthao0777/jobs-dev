@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import InputSelect from '@/components/ui/InputSelect';
 import { modulesQuill } from '@/enums';
-import SkillModel from '@/models/skill';
+import SkillModel from '@/models/Skill';
 import { TOptions } from '@/types/globalType';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';

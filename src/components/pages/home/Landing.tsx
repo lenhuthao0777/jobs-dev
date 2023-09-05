@@ -1,7 +1,7 @@
 import React from 'react';
 import { buttonVariants } from '@/components/ui/Button';
 import Link from 'next/link';
-const Post = () => {
+const Landing = () => {
   return (
     <div className='overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last'>
       <div className='px-6 py-4 bg-emerald-100'>
@@ -29,4 +29,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Landing;

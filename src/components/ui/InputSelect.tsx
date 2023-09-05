@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { ChangeEvent, FC } from 'react';
 import {
   Select,
   SelectContent,
@@ -7,14 +7,14 @@ import {
   SelectGroup,
   SelectLabel,
   SelectItem,
-} from "./select";
-import { TOptions } from "@/types/globalType";
+} from './select';
+import { TOptions } from '@/types/globalType';
 
 interface InputSelectProps {
   options: Array<TOptions>;
   defaultValue?: string;
   name?: string;
-  onChange: any;
+  onChange: (value: any) => void;
   placeholder?: string;
 }
 
@@ -29,11 +29,11 @@ const InputSelect: FC<InputSelectProps> = ({
     <>
       <Select
         onValueChange={(e: any) => {
-          onChange(e);
+          return onChange && onChange(e);
         }}
         defaultValue={defaultValue}
       >
-        <SelectTrigger className="w-full" aria-controls="radix-:R1mcq:">
+        <SelectTrigger className='w-full' aria-controls='radix-:R1mcq:'>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

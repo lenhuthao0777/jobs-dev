@@ -19,6 +19,25 @@ export type TOptions = {
   value: string;
 };
 
+export type TCompany = {
+  id?: string;
+  firstName?: string;
+  lastName?: string;
+  headLine?: string;
+  region?: string;
+  city?: string;
+  summary?: string;
+  industry?: string;
+  companySize?: string;
+  contact?: string;
+  avatar?: IAvatar;
+  backgroundImage?: BackgroundImage;
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  userId?: string;
+};
+
 export interface TProfile {
   id?: string;
   firstName: string;

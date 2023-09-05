@@ -1,5 +1,5 @@
-import Post from '@/components/pages/home/Post';
+import Landing from '@/components/pages/home/Landing';
 
 export default function Home() {
-  return <Post />;
+  return <Landing />;
 }
